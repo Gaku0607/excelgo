@@ -82,7 +82,7 @@ func (s *Sourc) setCol() error {
 //初始化所有col
 func (s *Sourc) initCols() {
 	for _, col := range s.Cols {
-		col.initCol()
+		col.InitCol()
 	}
 }
 

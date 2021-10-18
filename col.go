@@ -49,7 +49,7 @@ func NewCol(name string) *Col {
 }
 
 //初始化col以及包含的tcol
-func (c *Col) initCol() {
+func (c *Col) InitCol() {
 	c.Col = TwentysixToTen(c.ColStr)
 	for _, tcol := range c.TCol {
 		tcol.TCol = TwentysixToTen(tcol.TColStr)
