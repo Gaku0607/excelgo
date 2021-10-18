@@ -230,6 +230,49 @@ func (s *Sourc) Sort(data [][]interface{}) {
 	return
 }
 
+//Col迭代器
+func (s *Sourc) IteratorByCol() func() (*Col, bool) {
+	index := 0
+	return func() (*Col, bool) {
+		if index >= len(s.Cols) {
+			return nil, false
+		}
+		col := s.Cols[index]
+		index++
+		return col, true
+	}
+}
+
+//TCol迭代器
+func (s *Sourc) IteratorByTCol() func() (*TargetCol, bool) {
+	var col *Col
+	var tcol *TargetCol
+	colfn := s.IteratorByCol()
+	tcolindex := 0
+	return func() (*TargetCol, bool) {
+
+		if col != nil && tcolindex < len(col.TCol) {
+			tcol = col.TCol[tcolindex]
+			tcolindex++
+			return tcol, true
+		}
+
+		for {
+			c, b := colfn()
+			if !b {
+				break
+			}
+			if len(c.TCol) > 0 {
+				col = c
+				tcol = c.TCol[tcolindex]
+				tcolindex++
+				return tcol, true
+			}
+		}
+		return nil, false
+	}
+}
+
 func (s *Sourc) deleteHeaderSpace(data [][]string) [][]string {
 	index := 0
 	for i, row := range data {
