@@ -53,6 +53,7 @@ func (c *Col) initCol() {
 	c.Col = TwentysixToTen(c.ColStr)
 	for _, tcol := range c.TCol {
 		tcol.TCol = TwentysixToTen(tcol.TColStr)
+		tcol.FatherCol = c
 		tcol.InitFormat()
 	}
 }

@@ -23,10 +23,11 @@ func GetFormatCategory(sheet string, tcolstr string) TcolFormatFunc {
 }
 
 type TargetCol struct {
-	Sheet   string         `json:"sheet"`
-	TCol    int            `json:"-"`
-	TColStr string         `json:"tcol_str"`
-	Format  TcolFormatFunc `json:"-"`
+	FatherCol *Col           `json:"-"`
+	Sheet     string         `json:"sheet"`
+	TCol      int            `json:"-"`
+	TColStr   string         `json:"tcol_str"`
+	Format    TcolFormatFunc `json:"-"`
 }
 
 func NewTCol(sheet string, TColStr string) *TargetCol {
