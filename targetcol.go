@@ -23,7 +23,7 @@ func GetFormatCategory(sheet string, tcolstr string) TcolFormatFunc {
 }
 
 type TargetCol struct {
-	FatherCol *Col           `json:"-"`
+	ParentCol *Col           `json:"-"`
 	Sheet     string         `json:"sheet"`
 	TCol      int            `json:"-"`
 	TColStr   string         `json:"tcol_str"`
