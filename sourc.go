@@ -2,6 +2,7 @@ package excelgo
 
 import (
 	"fmt"
+	"strings"
 )
 
 //源頭文件
@@ -55,7 +56,7 @@ func (s *Sourc) setCol() error {
 		flag = true
 
 		for i, header := range s.Headers {
-			if ts.Span == header {
+			if ts.Span == strings.Trim(header, " ") {
 				ts.Col = i
 				flag = false
 				break
