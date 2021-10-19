@@ -16,6 +16,32 @@ func removecharacters(str, sep string) string {
 	return strings.Join(sli, "")
 }
 
+// func ConvertToLetter(col int) string {
+
+// 	if col == 0 {
+// 		return ""
+// 	}
+
+// 	p := col / 27
+
+// 	if p == 0 {
+// 		return string((col - 1) + 65)
+// 	}
+
+// 	return ""
+// }
+
+func calculate1(col int) int {
+
+	i := 0
+
+	for p := col / 26; p == 0; i++ {
+		p /= 26
+	}
+
+	return i
+}
+
 //計算字符欄位實際的整字
 func TwentysixToTen(colstr string) int {
 
@@ -32,7 +58,7 @@ func TwentysixToTen(colstr string) int {
 			return 0
 		}
 
-		m := calaute(len(colstr) - 1 - i)
+		m := calculate2(len(colstr) - 1 - i)
 
 		sum += (p - 64) * m
 
@@ -40,7 +66,8 @@ func TwentysixToTen(colstr string) int {
 	return sum
 }
 
-func calaute(n int) int {
+//
+func calculate2(n int) int {
 	sum := 1
 	for i := 0; i < n; i++ {
 		sum *= 26
