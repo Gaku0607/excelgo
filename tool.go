@@ -185,20 +185,3 @@ func OpenFile(path string) (FormFile, error) {
 		return nil, errors.New("File format does not match")
 	}
 }
-
-//初始化源文件
-func initSourcFile(file FormFile, s *Sourc) error {
-
-	s.Path = file.Path()
-	rows, err := file.Rows(s.SheetName)
-	if err != nil {
-		return err
-	}
-	s.Rows = rows
-
-	if err := s.Init(); err != nil {
-		return err
-	}
-
-	return nil
-}

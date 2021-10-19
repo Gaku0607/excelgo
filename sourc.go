@@ -31,10 +31,18 @@ func NewSourc(name string, tarspans ...*Col) *Sourc {
 	return s
 }
 
-func (s *Sourc) Init() error {
-	s.Rows = s.deleteHeaderSpace(s.Rows)
+func (s *Sourc) Init(file FormFile) error {
+	s.Path = file.Path()
+
+	rows, err := file.Rows(s.SheetName)
+	if err != nil {
+		return err
+	}
+
+	s.Rows = s.deleteHeaderSpace(rows)
 	s.Headers = s.Rows[0]
 	s.Rows = s.Rows[1:]
+
 	if err := s.setCol(); err != nil {
 		return err
 	}
