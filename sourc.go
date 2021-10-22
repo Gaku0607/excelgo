@@ -261,6 +261,9 @@ func (s *Sourc) IteratorByTCol() func() (*TargetCol, bool) {
 			if !b {
 				break
 			}
+
+			tcolindex = 0
+
 			if len(c.TCol) > 0 {
 				col = c
 				tcol = c.TCol[tcolindex]
