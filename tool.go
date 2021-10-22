@@ -77,14 +77,14 @@ func calculate2(n int) int {
 
 //確認是否有相同檔名有則變更
 func CheckFileName(path string) string {
-	base := ".xlsx"
+	base := filepath.Ext(path)
 	format := base
-	for i := 0; ; i++ {
+	for i := 1; ; i++ {
 		if !isFileExist(path) {
 			return path
 		}
-		path = strings.Replace(path, format, "("+strconv.Itoa(i+1)+")"+base, 1)
-		format = "(" + strconv.Itoa(i+1) + ")" + base
+		path = strings.Replace(path, format, "("+strconv.Itoa(i)+")"+base, 1)
+		format = "(" + strconv.Itoa(i) + ")" + base
 	}
 }
 
