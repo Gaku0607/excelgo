@@ -35,7 +35,7 @@ type Col struct {
 
 	Impurity `json:"impurity"`
 
-	Filter []string //篩選
+	Filter `json:"filter"` //篩選
 
 	Numice `json:"numice"`
 
@@ -50,6 +50,7 @@ func NewCol(name string) *Col {
 
 //初始化col以及包含的tcol
 func (c *Col) InitCol() {
+	c.Filter.col = c.Col
 	for _, tcol := range c.TCol {
 		tcol.TCol = TwentysixToTen(tcol.TColStr)
 		tcol.ParentCol = c
@@ -77,9 +78,9 @@ func (c *Col) removecharacters(val string) string {
 	return val
 }
 
-func (c *Col) Sum(data interface{}) error {
+func (c *Col) Sum(data interface{}) (int, error) {
+	var total int
 	if c.IsSum {
-		var total int
 		switch data.(type) {
 		case [][]interface{}:
 			for _, row := range data.([][]interface{}) {
@@ -95,8 +96,8 @@ func (c *Col) Sum(data interface{}) error {
 			c.Numice.Total = total
 
 		default:
-			return errors.New("Does not match the sumfunc format")
+			return 0, errors.New("Does not match the sumfunc format")
 		}
 	}
-	return nil
+	return total, nil
 }

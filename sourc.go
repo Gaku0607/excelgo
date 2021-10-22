@@ -162,25 +162,15 @@ func (s *Sourc) FilterAll(originldata [][]string) [][]string {
 }
 
 func (s *Sourc) FilterByCol(originldata [][]string, cols ...*Col) [][]string {
-	var newrows [][]string
-
-	for _, row := range originldata {
-	Loop:
-		for _, col := range cols {
-			for _, kw := range col.Filter {
-				if kw == row[col.Col] {
-					newrows = append(newrows, row)
-					break Loop
-				}
-			}
-		}
+	for _, col := range cols {
+		originldata = col.filter(originldata)
 	}
-	return newrows
+	return originldata
 }
 
 func (s *Sourc) Sum(data interface{}) error {
 	for _, col := range s.Cols {
-		if err := col.Sum(data); err != nil {
+		if _, err := col.Sum(data); err != nil {
 			return err
 		}
 	}

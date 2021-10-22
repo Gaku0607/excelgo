@@ -36,7 +36,7 @@ type InventorySourc struct {
 	InventorySpan string `json:"inventory_span"`
 }
 
-const jsonpath = "./examles.json"
+const jsonpath = "../examles.json"
 
 func main() {
 	if err := manage_goods_parms(&SystemParms{}); err != nil {
@@ -73,7 +73,7 @@ func manage_goods_parms(s *SystemParms) error {
 		code := excelgo.NewCol(s.TC.InventorySourc.CodeSpan)
 
 		book := excelgo.NewCol("帳面")
-		book.Filter = []string{"P100/S", "P104/S"}
+		book.Filter = excelgo.Filter{IsTarget: true, Target: []string{"P100/S", "P104/S"}}
 		sourc := excelgo.NewSourc(
 			inventory_sheet,
 			book,
