@@ -4,36 +4,40 @@ type TcolFormatFunc func(interface{}) interface{}
 
 var DefaultTcolFormat TcolFormatFunc = func(i interface{}) interface{} { return i }
 
-var FormatCategory map[string]TcolFormatFunc = make(map[string]TcolFormatFunc)
+type ValueForamt map[string]map[string]TcolFormatFunc
 
-func SetFormatCategory(sheet string, tcolstr string, f TcolFormatFunc) {
-	if FormatCategory == nil {
-		FormatCategory = make(map[string]TcolFormatFunc)
+func (v ValueForamt) SetFormatCategory(servicename, sheet, tcolstr string, f TcolFormatFunc) {
+	if v == nil {
+		v = map[string]map[string]TcolFormatFunc{}
 	}
 	//sheet+tcolstr為key
-	FormatCategory[sheet+tcolstr] = f
+	v[servicename][sheet+tcolstr] = f
 }
 
-func GetFormatCategory(sheet string, tcolstr string) TcolFormatFunc {
-	if f, exist := FormatCategory[sheet+tcolstr]; exist {
-		return f
-	} else {
-		return DefaultTcolFormat
+func (v ValueForamt) GetFormatCategory(servicename, sheet, tcolstr string) TcolFormatFunc {
+	if services, exist := v[servicename]; exist {
+		if format, exist := services[sheet+tcolstr]; exist {
+			return format
+		}
 	}
+	return DefaultTcolFormat
 }
+
+var FormatCategory ValueForamt
 
 type TargetCol struct {
-	ParentCol *Col           `json:"-"`
-	Sheet     string         `json:"sheet"`
-	TCol      int            `json:"-"`
-	TColStr   string         `json:"tcol_str"`
-	Format    TcolFormatFunc `json:"-"`
+	ParentCol   *Col           `json:"-"`
+	ServiceName string         `json:"service_name"`
+	Sheet       string         `json:"sheet"`
+	TCol        int            `json:"-"`
+	TColStr     string         `json:"tcol_str"`
+	Format      TcolFormatFunc `json:"-"`
 }
 
-func NewTCol(sheet string, TColStr string) *TargetCol {
-	return &TargetCol{Sheet: sheet, TColStr: TColStr}
+func NewTCol(servicename, sheet, TColStr string) *TargetCol {
+	return &TargetCol{ServiceName: servicename, Sheet: sheet, TColStr: TColStr}
 }
 
 func (t *TargetCol) InitFormat() {
-	t.Format = GetFormatCategory(t.Sheet, t.TColStr)
+	t.Format = FormatCategory.GetFormatCategory(t.ServiceName, t.Sheet, t.TColStr)
 }

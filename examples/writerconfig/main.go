@@ -56,8 +56,9 @@ func main() {
 func manage_goods_parms(s *SystemParms) error {
 
 	const (
-		manage_sheet    = "基準在庫値(商品+販促物)"
-		inventory_sheet = "庫存彙總表"
+		manage_sheet                = "基準在庫値(商品+販促物)"
+		inventory_sheet             = "庫存彙總表"
+		mid_month_inventory_service = "月中管理"
 	)
 
 	s.TC.TotalPCSTCol = 7
@@ -90,8 +91,8 @@ func manage_goods_parms(s *SystemParms) error {
 		codecol := excelgo.NewCol(s.TC.ManageSourc.CodeSpan)
 		codecol.Impurity = excelgo.Impurity{IsSplit: true, Contains: []string{"'"}}
 		codecol.TCol = []*excelgo.TargetCol{
-			excelgo.NewTCol(inventory_sheet, "AA"),
-			excelgo.NewTCol(inventory_sheet, "BZ"),
+			excelgo.NewTCol(mid_month_inventory_service, inventory_sheet, "AA"),
+			excelgo.NewTCol(mid_month_inventory_service, inventory_sheet, "BZ"),
 		}
 
 		s.TC.ManageSourc.PSCSpan = "閾値(pcs)"
