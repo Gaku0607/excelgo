@@ -10,6 +10,10 @@ func (v ValueForamt) SetFormatCategory(servicename, sheet, tcolstr string, f Tco
 	if v == nil {
 		v = map[string]map[string]TcolFormatFunc{}
 	}
+
+	if v[servicename] == nil {
+		v[servicename] = map[string]TcolFormatFunc{}
+	}
 	//sheet+tcolstr為key
 	v[servicename][sheet+tcolstr] = f
 }
