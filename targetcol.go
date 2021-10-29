@@ -27,7 +27,7 @@ func (v ValueForamt) GetFormatCategory(servicename, sheet, tcolstr string) TcolF
 	return DefaultTcolFormat
 }
 
-var FormatCategory ValueForamt
+var FormatCategory ValueForamt = make(ValueForamt)
 
 type TargetCol struct {
 	ParentCol   *Col           `json:"-"`

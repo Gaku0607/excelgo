@@ -98,9 +98,46 @@ func isFileExist(filename string) bool {
 	return true
 }
 
-//插入排序依據指定的行列進行排序
-func sort(rows [][]interface{}, col int) {
+//************************************************
+//****************  OrderSort  *******************
+//************************************************
 
+const (
+	ReverseOrder  Order = 0
+	PositiveOrder Order = 1
+)
+
+type Order uint8
+
+func (o Order) String() string {
+
+	switch o {
+	case ReverseOrder:
+		return "ReverseOrder"
+	case PositiveOrder:
+		return "PositiverOrder"
+	default:
+		return "null"
+	}
+}
+
+//插入排序依據指定的行列進行排序
+func Sort(rows [][]interface{}, col int, order Order) {
+
+	if len(rows) == 0 {
+		panic("rows of data is nil")
+	}
+	switch order {
+	case ReverseOrder:
+		reverseSort(rows, col)
+	case PositiveOrder:
+		positiveSort(rows, col)
+	default:
+		panic("No such sorting method")
+	}
+}
+
+func reverseSort(rows [][]interface{}, col int) {
 	for i := 1; i < len(rows); i++ {
 		ii := rows[i]
 		index := i - 1
@@ -138,7 +175,47 @@ func sort(rows [][]interface{}, col int) {
 		default:
 			panic("Does not match the sorting format")
 		}
+	}
+}
 
+func positiveSort(rows [][]interface{}, col int) {
+	for i := 1; i < len(rows); i++ {
+		ii := rows[i]
+		index := i - 1
+		insertVal := rows[i][col]
+		targetVal := rows[index][col]
+
+		switch insertVal.(type) {
+		case string:
+
+			for targetVal.(string) < insertVal.(string) {
+				rows[index+1] = rows[index]
+				index--
+				if index < 0 {
+					break
+				}
+				targetVal = rows[index][col].(string)
+			}
+			if index != i-1 {
+				rows[index+1] = ii
+			}
+
+		case int:
+			for targetVal.(int) < insertVal.(int) {
+				rows[index+1] = rows[index]
+				index--
+				if index < 0 {
+					break
+				}
+				targetVal = rows[index][col].(int)
+			}
+			if index != i-1 {
+				rows[index+1] = ii
+			}
+
+		default:
+			panic("Does not match the sorting format")
+		}
 	}
 }
 
