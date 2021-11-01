@@ -16,33 +16,58 @@ func removecharacters(str, sep string) string {
 	return strings.Join(sli, "")
 }
 
-// func ConvertToLetter(col int) string {
+//欄位數字轉字母欄位
+func ConvertToLetter(num int) string {
 
-// 	if col == 0 {
-// 		return ""
-// 	}
-
-// 	p := col / 27
-
-// 	if p == 0 {
-// 		return string((col - 1) + 65)
-// 	}
-
-// 	return ""
-// }
-
-func calculate1(col int) int {
-
-	i := 0
-
-	for p := col / 26; p == 0; i++ {
-		p /= 26
+	if num == 0 {
+		panic("headercol is zero")
 	}
 
-	return i
+	const letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+	var (
+		str  string
+		i, n int
+	)
+
+	for {
+		m := 1
+		n, i = calculate1(num)
+
+		str += string(letter[n-1])
+
+		if i == 0 {
+			break
+		}
+
+		for ; i > 0; i-- {
+			m *= 26
+		}
+		num -= m * n
+	}
+
+	return str
 }
 
-//計算字符欄位實際的整字
+func calculate1(num int) (int, int) {
+
+	if num <= 26 {
+		return num, 0
+	}
+
+	i := 1
+	for {
+		num = num / 26
+
+		if num <= 26 {
+			break
+		}
+		i++
+	}
+	return num, i
+}
+
+//字母欄位轉數字
 func TwentysixToTen(colstr string) int {
 
 	sum := 0
@@ -66,7 +91,6 @@ func TwentysixToTen(colstr string) int {
 	return sum
 }
 
-//
 func calculate2(n int) int {
 	sum := 1
 	for i := 0; i < n; i++ {
