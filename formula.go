@@ -1,10 +1,13 @@
 package excelgo
 
-import "fmt"
+import (
+	"strconv"
+	"strings"
+)
 
 type FormulaFunc func(int, string) string
 
-var DefaultFormulaFunc FormulaFunc = func(index int, formula string) string { return fmt.Sprintf(formula, index) }
+var DefaultFormulaFunc FormulaFunc = func(index int, formula string) string { return strings.ReplaceAll(formula, "%d", strconv.Itoa(index)) }
 
 type SheetFormula map[string]map[string]FormulaFunc
 
