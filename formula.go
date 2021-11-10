@@ -1,8 +1,10 @@
 package excelgo
 
-type FormulaFunc func(int, int, string) string
+import "fmt"
 
-var DefaultFormulaFunc FormulaFunc = func(col int, tcol int, formula string) string { return formula }
+type FormulaFunc func(int, string) string
+
+var DefaultFormulaFunc FormulaFunc = func(index int, formula string) string { return fmt.Sprintf(formula, index) }
 
 type SheetFormula map[string]map[string]FormulaFunc
 
@@ -42,18 +44,15 @@ type Formula struct {
 	TSheet      string      `json:"tsheet"`
 	TColStr     string      `json:"tcol_str"`
 	TCol        int         `json:"-"`
-	ColStr      string      `json:"col_str"`
-	Col         int         `json:"col"`
 	formulafunc FormulaFunc `json:"-"`
 	ServiceName string      `json:"service_name"`
 }
 
-func NewFormula(service, formula, sheet, colstr, tcolstr string) *Formula {
-	return &Formula{ServiceName: service, FormulaStr: formula, TSheet: sheet, TColStr: tcolstr, ColStr: colstr}
+func NewFormula(service, formula, sheet, tcolstr string) *Formula {
+	return &Formula{ServiceName: service, FormulaStr: formula, TSheet: sheet, TColStr: tcolstr}
 }
 
 func (f *Formula) initFormula() {
 	f.TCol = TwentysixToTen(f.TColStr)
-	f.Col = TwentysixToTen(f.ColStr)
 	FormulaCategory.GetFormulaCategory(f.ServiceName, f.TSheet, f.TColStr)
 }
