@@ -104,7 +104,7 @@ func manage_goods_parms(s *SystemParms) error {
 			psccol,
 		)
 
-		sourc.Formulas = []*excelgo.Formula{excelgo.NewFormula("=ROUNDUP((G%d-F%d)/D%d,0)", manage_sheet, "T")}
+		sourc.Formulas = []*excelgo.Formula{excelgo.NewFormula("Test", "=ROUNDUP((G%d-F%d)/D%d,0)", manage_sheet, "", "T")}
 
 		s.TC.ManageSourc.Sourc = *sourc
 
