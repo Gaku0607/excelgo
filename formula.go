@@ -54,5 +54,5 @@ func NewFormula(service, formula, sheet, tcolstr string) *Formula {
 
 func (f *Formula) initFormula() {
 	f.TCol = TwentysixToTen(f.TColStr)
-	FormulaCategory.GetFormulaCategory(f.ServiceName, f.TSheet, f.TColStr)
+	f.Formulafn = FormulaCategory.GetFormulaCategory(f.ServiceName, f.TSheet, f.TColStr)
 }
