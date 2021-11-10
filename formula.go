@@ -44,7 +44,7 @@ type Formula struct {
 	TSheet      string      `json:"tsheet"`
 	TColStr     string      `json:"tcol_str"`
 	TCol        int         `json:"-"`
-	formulafunc FormulaFunc `json:"-"`
+	Formulafn   FormulaFunc `json:"-"`
 	ServiceName string      `json:"service_name"`
 }
 
