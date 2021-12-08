@@ -5,6 +5,11 @@ import (
 	"strings"
 )
 
+type SpanSort struct {
+	Order
+	Span string
+}
+
 //源頭文件
 type Sourc struct {
 	Path string `json:"-"`
@@ -15,7 +20,7 @@ type Sourc struct {
 
 	SheetName string `json:"sheet_name"`
 
-	SortOrder map[string]Order `json:"sort_order"` //排序順序
+	SpanSorts []SpanSort `json:"span_sorts"` //排序順序
 
 	Cols []*Col `json:"cols"` //關鍵欄位名稱
 
@@ -23,11 +28,9 @@ type Sourc struct {
 }
 
 func NewSourc(name string, tarspans ...*Col) *Sourc {
-
 	s := &Sourc{}
 	s.SheetName = name
 	s.Cols = append(s.Cols, tarspans...)
-
 	return s
 }
 
@@ -219,10 +222,10 @@ func (s *Sourc) GetCol(span string) *Col {
 
 func (s *Sourc) Sort(data [][]interface{}) {
 
-	for orderspan, order := range s.SortOrder {
+	for _, tp := range s.SpanSorts {
 		for i, span := range s.Headers {
-			if span == orderspan {
-				Sort(data, i, order)
+			if span == tp.Span {
+				Sort(data, i, tp.Order)
 			}
 		}
 	}
