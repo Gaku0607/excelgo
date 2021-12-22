@@ -25,6 +25,8 @@ type Sourc struct {
 	Cols []*Col `json:"cols"` //關鍵欄位名稱
 
 	Formulas Formulas `json:"formulas"`
+
+	startBlankRowsCount int //起始的空白行數
 }
 
 func NewSourc(name string, tarspans ...*Col) *Sourc {
@@ -42,6 +44,7 @@ func (s *Sourc) Init(file FormFile) error {
 		return err
 	}
 
+	s.startBlankRowsCount = 0
 	s.Rows = s.deleteHeaderSpace(rows)
 	s.Headers = s.Rows[0]
 	s.Rows = s.Rows[1:]
@@ -279,13 +282,16 @@ func (s *Sourc) IteratorByTCol() func() (*TargetCol, bool) {
 }
 
 func (s *Sourc) deleteHeaderSpace(data [][]string) [][]string {
-	index := 0
-	for i, row := range data {
+	for _, row := range data {
 		if len(row) == 0 {
-			index = i + 1
+			s.startBlankRowsCount++
 		} else {
 			break
 		}
 	}
-	return data[index:]
+	return data[s.startBlankRowsCount:]
+}
+
+func (s *Sourc) GetStartBlankRowsCount() int {
+	return s.startBlankRowsCount
 }
