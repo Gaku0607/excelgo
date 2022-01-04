@@ -50,6 +50,7 @@ func NewCol(name string) *Col {
 
 //初始化col以及包含的tcol
 func (c *Col) InitCol() {
+	c.ColStr = ConvertToLetter(c.Col + 1)
 	c.Filter.col = c.Col
 	for _, tcol := range c.TCol {
 		tcol.TCol = TwentysixToTen(tcol.TColStr)
