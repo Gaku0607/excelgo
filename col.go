@@ -102,3 +102,30 @@ func (c *Col) Sum(data interface{}) (int, error) {
 	}
 	return total, nil
 }
+
+func (c *Col) Clone() *Col {
+	nc := &Col{
+		Span:     c.Span,
+		Col:      c.Col,
+		ColStr:   c.ColStr,
+		Impurity: c.Impurity,
+		Filter:   c.Filter,
+		Numice:   c.Numice,
+		Info:     c.Info,
+	}
+
+	var newTcols []*TargetCol = make([]*TargetCol, len(c.TCol))
+	for i, tc := range c.TCol {
+		newTcols[i] = &TargetCol{
+			ParentCol:   nc,
+			ServiceName: tc.ServiceName,
+			Sheet:       tc.ServiceName,
+			TCol:        tc.TCol,
+			TColStr:     tc.TColStr,
+			Format:      tc.Format,
+		}
+	}
+
+	nc.TCol = newTcols
+	return nc
+}

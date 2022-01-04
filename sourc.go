@@ -295,3 +295,20 @@ func (s *Sourc) deleteHeaderSpace(data [][]string) [][]string {
 func (s *Sourc) GetStartBlankRowsCount() int {
 	return s.startBlankRowsCount
 }
+
+func (s *Sourc) Clone() *Sourc {
+	var newCols []*Col
+	for _, c := range s.Cols {
+		newCols = append(newCols, c.Clone())
+	}
+	return &Sourc{
+		Path:                s.Path,
+		Rows:                s.Rows,
+		Headers:             s.Headers,
+		SheetName:           s.SheetName,
+		SpanSorts:           s.SpanSorts,
+		Cols:                newCols,
+		Formulas:            s.Formulas,
+		startBlankRowsCount: s.startBlankRowsCount,
+	}
+}
