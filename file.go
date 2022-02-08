@@ -9,6 +9,7 @@ import (
 type FormFile interface {
 	Path() string
 	Rows(string) ([][]string, error)
+	Close() error
 }
 
 type XlsxFile struct {
@@ -29,6 +30,10 @@ func (x *XlsxFile) Rows(sheet string) ([][]string, error) {
 	return x.File.GetRows(sheet)
 }
 
+func (c *XlsxFile) Close() error {
+	return c.File.Close()
+}
+
 type CsvFile struct {
 	File *csv.Reader
 	path string
@@ -47,4 +52,8 @@ func (c *CsvFile) Path() string {
 
 func (c *CsvFile) Rows(sheet string) ([][]string, error) {
 	return c.File.ReadAll()
+}
+
+func (c *CsvFile) Close() error {
+	return nil
 }
