@@ -152,7 +152,7 @@ func (s *Sourc) Transform(originldata [][]string) ([][]interface{}, error) {
 				if col.Col == i {
 					data, err = col.TransferFormat(val)
 					if err != nil {
-						return nil, fmt.Errorf("Malformed Column [%s] line 3 %d", col.Span, s.startBlankRowsCount+1+index)
+						return nil, fmt.Errorf("Malformed Column [%s] line: %d", col.Span, s.startBlankRowsCount+1+index)
 					}
 				}
 			}
