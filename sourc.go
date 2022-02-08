@@ -54,7 +54,7 @@ func (s *Sourc) Init(file FormFile) error {
 	}
 	s.Formulas.initFormula()
 	s.initCols()
-	return nil
+	return file.Close()
 }
 
 //找尋所有指定的列並進行儲存
